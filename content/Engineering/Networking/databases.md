@@ -33,7 +33,7 @@ Here, even Sam, with his Culinary Arts degree and daily/nightly baking, could ha
 
 **Create, Read, Update, Delete**
 
-SQL, Structured Query Language, interacts with relational databases (RDBMS), it is very powerful but also quite restrictive in that it requires schema, to create, read/retrieve, update, and delete records in its database, this is also known as CRUD (it encompasses both the actions we use to interact with the databases and how we feel about them)!
+SQL, Structured Query Language, interacts with relational databases (RDBMS), it is very powerful but also quite restrictive in that it requires schema, to create, read/retrieve, update, and delete records in its database, this is also known as CRUD (it encompasses both the actions we use to interact with the databases and how we feel about them)! Very technically, SQL and spreadsheets have this in common as well, the main differences being that RDBMS servers require Schema but they also can handle larger volumes of data and provide better security and access to spreadsheets.
 
 [TODO] Maybe flesh this out a little bit more.
 
@@ -68,13 +68,13 @@ Here, UserID is a **Foreign Key** while the Primary Key of tickets is TicketID.
 
 | One | to | Many |
 | --- | --- | --- |
-| A user has one UserID but likely many items associated with it, |  | This is also known as an **N-ary Relationship**
+| A user has one UserID but likely many items associated with it. |  | This is also known as an **N-ary Relationship**
 |Many | to | Many |
 | A **Binary Relationship** |  | Most students enroll in multiple courses while courses have many students. |
 | One | to | One |
 | Also known as a **Unary Relationship** | | Only one set of entities, one to one, such as UserID and StateID.|
 
- Separate Tables can be joined in reports, filter by dates and return a report featuring nothing but one column from each table! We have various organizations of this method
+ Separate Tables can be joined in reports, filter by dates and return a report featuring nothing but one column from each table! We have various organizations of this method.
 
 This probably doesn’t sound like anything but it’s so much better to have a table of unique order numbers, dates, and user IDs related to a general users table than somehow cramming a long list of order numbers into some fields in the Users Table. This allows for a relation to exist between the tables (User ID’s) and query all the info of a user when they ask about their order from the Orders table with just a JOIN function(more on that in a bit)! No duplicate data, all data present has a place to be.
 
@@ -157,14 +157,22 @@ INNER JOIN Customers ON
 Orders.CustomerID=Customer.CustomerID;
 ```
 
+{{< hint style="info" >}}
+The ON keyword is used to specify the condition for the join. In this case, we're joining the tables based on their CustomerID columns.
+{{< /hint >}}
+
 This is actually one of the first solid examples of the power of relational databases.
 The INNER of the INNER JOIN just describes the overlap of a Venn Diagram, what both tables have in common as W3’s diagrams illustrate, JOINS are very much like Venn Diagrams.
 
 We know our output is three columns wide from the above but you probably haven’t seen the dot operators in SQL yet! If it looks like table names are being referenced in the column space, it’s because they are, actually. This is how we differentiate between columns of separate tables and JOIN keywords give us the ability to return data together from separate but ‘related’ tables!
 
-
-
 In W3’s example, we get to incorporate data from customer names next to their Order ID’s and Order dates,this creates a very useful view for reports, data that wouldn’t make sense to share a table together completely can be pulled together to better illustrate your data and this doesn’t destabilize your tables at all! 
+
+
+There's a lot of joins in SQL, including:
+* inner joins (which only include rows where the join condition is met in both tables)
+* outer joins (which include all rows from one table and matching rows from the other table)
+* cross joins (which combine every row from one table with every row from the other table)
 
 
 [TODO], like, all of it. Need SQL vs Non-Relational too
@@ -191,17 +199,41 @@ Some of the key properties of Relational databases are represented by the acrony
 | **Consistency**:The database cannot change while performing a transaction and any data entering the database is made to be consistent with the set mechanisms and rules. This protects datas’ integrity. | **Soft State**:The system’s state is mutable, it doesn’t require write-consistency. 
 | **Isolation**: Regardless of how it may seem, no matter how many operations are being performed on the database, each operation is contained to itself, atomic and executes sequentially. No transaction can affect another one in progress.  This is vital to remember when making SQL queries and scripts. |**Eventual consistency**: The BASE model ensures constant (or near-as-possible) availability, the sacrifice to achieve this means that while the data in a system may not always be consistent, its eventual consistency is ensured. 
 | **Durability**: Even should there be a system failure, the changes are finalized and will persist upon completing an operation. The ACID model properties define reliable and secure databases and scales vertically. Key disadvantages are that they can’t really scale horizontally and vertical scaling becomes *extremely* expensive fast, requiring more and more powerful machines. | BASE model properties strictly prioritize availability of data, adaptable and dynamic database schema, and the ability to scale horizontally, very easily. Key disadvantage is that they, by their nature, cannot alone ensure the integrity and consistency of data. |
+
+Ultimately, the choice depends on the requirements of the system in question. ACID is often used in traditional RDBMS systems that require immediate consistency, while BASE is commonly used in distributed systems and NoSQL databases that require high availability and scalability. Pick the best tool for the job.
+
 [TODO] Getgud at my formatting and fix this.
 
+Now we introduce NoSQL (which stands for "not only SQL") is a type of database that is designed to handle large amounts of unstructured or semi-structured data. It's often used in applications where data is generated at a high rate and needs to be stored and processed quickly. NoSQL databases can be highly scalable, which means they can handle a large number of users and data inputs without slowing down.
 
+The main difference between NoSQL and SQL is the way they handle data. SQL databases are highly structured, with data organized into tables ordered by specific blueprints (schema), which must be created before data can be stored. Whereas NoSQL databases, can handle unstructured or semi-structured data, and the schema can be flexible, allowing for changes in data structure over time.
+
+Also, while SQL databases use a standardized language called SQL to access data, which provides a powerful and flexible way to retrieve and manipulate data. NoSQL databases use different query languages depending on the database, but these languages often lack the strengths of SQL, notably flexibility and having a general standard to adhere to.
+
+Notable NoSQL databases are Cassandra HDFS(Hadoop File System),  they have some similarities and differences when compared to SQL databases.
+
+Cassandra, a highly scalable, distributed NoSQL database that is designed for high availability and fault tolerance. It is made to handle high velocity traffic, both for accessing and writing data. Cassandra does not have a fixed schema, it can handle dynamic and changing data structures and is often used for applications that require high scalability, such as social media and IoT.
+
+HDFS, on the other hand, is a distributed file system that is part of the Hadoop ecosystem. It is designed for storing and processing large datasets across multiple nodes(essentially machines/ single systems) in a cluster(multiple networked nodes). HDFS is optimized for batch processing and can handle both structured and unstructured data. It is often used for big data analytics, machine learning, and other data-intensive applications. I implemented a HDFS pilot system in 2015 as a test device for a several petabyte DC. The client that wanted it was very pleased but we had an interesting time getting it running; I'm very glad to see how it has matured over the years and serves data communities well.
+
+Compared to SQL databases, Cassandra and HDFS offer advantages such as high scalability and flexibility, which make them well-suited for handling large and complex datasets. However, they also have some limitations, such as less powerful query languages and less support for transactional consistency.
+
+Cassandra and HDFS are well-suited for scalability and flexible in more than one way, SQL's architecture does make it extremely reliable and consistent, as ACID should be. They are often used for applications that require complex queries and data manipulation, such as financial institutions and e-commerce.
+
+Again, pick the right tool for the job.
+
+Cassandra and HDFS:
+* Ideal for handling large and complex datasets that require high scalability and flexibility
+SQL:
+* Better suited for applications that require strong consistency and complex query operations.
 
 
 [TODO] Need to finish this outline into a proper paragaph
-NoSQL versus SQL
-Cassandra, HDFS, Big Table(Google) (NoSQL) vs. SQL
-Scalability versus non-scalable
+xNoSQL versus SQL
+xCassandra, HDFS (NoSQL) vs. SQL
+xScalability versus non-scalable
 new tech versus traditional and ubiquitous
-Node failure tolerance and disruption prevention versus missing functions,limited indexes joins and functions
+Node failure tolerance and disruption prevention versus missing xlimited indexes joins and functions
 
 
 
@@ -226,6 +258,17 @@ Node failure tolerance and disruption prevention versus missing functions,limite
 ## Graph Databases (Neo4j, GraphQL?)
 
 [Why not use GraphQL?](https://wundergraph.com/blog/why_not_use_graphql)
+
+## GraphQL
+
+[TODO]I need to reword this but:
+Unlike traditional SQL databases that enforce ACID properties, GraphQL provides more flexibility to developers in terms of how they can retrieve and modify data. GraphQL allows developers to define a flexible schema that can handle a wide range of queries, which can be both good and bad in terms of consistency and data integrity.
+
+GraphQL is designed to work with a wide range of data sources, including both SQL and NoSQL databases, and allows for eventual consistency between different data sources. This means that data may not be consistent at all times, but will eventually converge to a consistent state.
+
+Overall, GraphQL provides a more flexible approach to data querying and manipulation, but requires careful consideration of the trade-offs between consistency and performance.
+
+-Maybe a GraphQL article? I like it in MERN.
 
 ## Document-Oriented Database (Couchbase)
 
